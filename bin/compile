@@ -8,12 +8,14 @@ set -o pipefail
 # Fail on undeclared variables.
 set -u
 # Debug, echo every command
-#set -x
+set -x
 
 BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
 BP_DIR=`cd $(dirname $0); cd ..; pwd`
+
+ls -al "$ENV_DIR"
 
 export_env_dir() {
   local env_dir=$1
@@ -55,6 +57,10 @@ cp "$BP_DIR/.profile.d/inject_react_app_env.sh" "$profile_d_dir/"
 # * `NODE_*`, especially for `NODE_PATH`
 #   * https://github.com/facebookincubator/create-react-app/pull/476
 export_env_dir "$ENV_DIR" '^(REACT_APP_|NODE_)'
+
+env
+
+ls -al .
 
 # Build the javascript bundle
 npm run build
